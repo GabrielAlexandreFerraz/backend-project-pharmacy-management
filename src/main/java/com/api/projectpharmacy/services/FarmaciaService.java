@@ -1,10 +1,13 @@
 package com.api.projectpharmacy.services;
 
 import com.api.projectpharmacy.models.FarmaciaModel;
+import com.api.projectpharmacy.models.MedicamentoModel;
 import com.api.projectpharmacy.repositories.FarmaciaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FarmaciaService {
@@ -21,5 +24,8 @@ public class FarmaciaService {
 
     public List<FarmaciaModel> findAll() {
         return farmaciaRepository.findAll();
+    }
+    public Optional<FarmaciaModel> findById(UUID id) {
+        return farmaciaRepository.findById(id);
     }
 }

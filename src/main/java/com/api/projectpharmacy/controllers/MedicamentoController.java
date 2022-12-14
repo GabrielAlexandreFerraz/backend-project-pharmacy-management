@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/medicamento")
@@ -34,6 +36,11 @@ public class MedicamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(medicamentoService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getPorId(@PathVariable(value = "id")UUID id){
+        Optional<MedicamentoModel> medicamentoModelOptional = medicamentoService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(medicamentoModelOptional.get());
+    }
 
 
 

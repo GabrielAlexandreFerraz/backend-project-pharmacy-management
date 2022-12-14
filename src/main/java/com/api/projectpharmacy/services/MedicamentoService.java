@@ -6,6 +6,8 @@ import com.api.projectpharmacy.repositories.MedicamentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MedicamentoService {
@@ -24,4 +26,7 @@ public class MedicamentoService {
     }
 
 
+    public Optional<MedicamentoModel> findById(UUID id) {
+        return medicamentoRepository.findById(id);
+    }
 }

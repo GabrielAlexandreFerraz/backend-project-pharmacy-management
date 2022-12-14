@@ -25,8 +25,11 @@ public class FarmaciaModel implements Serializable {
     @Column(nullable = false, length = 60)
     private String razaoSocial;
 
-    @Column(nullable = false, unique = true, length = 60)
+    @Column(nullable = false, length = 60)
     private String cnpj;
+
+    @Column(nullable = false, length = 60)
+    private String nomeFantasia;
 
     @Column(nullable = false, length = 120)
     private String email;
