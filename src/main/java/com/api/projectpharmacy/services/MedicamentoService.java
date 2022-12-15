@@ -29,4 +29,9 @@ public class MedicamentoService {
     public Optional<MedicamentoModel> findById(UUID id) {
         return medicamentoRepository.findById(id);
     }
+    public void delete(MedicamentoModel medicamentoModel) {
+        medicamentoRepository.delete(medicamentoModel);
+    }
+
+
 }

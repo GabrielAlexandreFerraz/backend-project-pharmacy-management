@@ -1,9 +1,7 @@
 package com.api.projectpharmacy.controllers;
 
 
-import com.api.projectpharmacy.dto.FarmaciaDto;
 import com.api.projectpharmacy.dto.MedicamentoDto;
-import com.api.projectpharmacy.models.FarmaciaModel;
 import com.api.projectpharmacy.models.MedicamentoModel;
 import com.api.projectpharmacy.services.MedicamentoService;
 import jakarta.validation.Valid;
@@ -42,6 +40,26 @@ public class MedicamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(medicamentoModelOptional.get());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarPorId(@PathVariable(value = "id") UUID id){
+        Optional<MedicamentoModel> medicamentoModelOptional = medicamentoService.findById(id);
+        medicamentoService.delete(medicamentoModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("deletado com sucesso");
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updatePorId(@PathVariable(value = "id") UUID id,
+                                              @RequestBody @Valid MedicamentoDto medicamentoDto){
+        Optional<MedicamentoModel> medicamentoModelOptional = medicamentoService.findById(id);
+        var medicamentoModel = medicamentoModelOptional.get();
+        medicamentoModel.setNomeMedicamentos(medicamentoDto.getNomeMedicamentos());
+        medicamentoModel.setPrecoMedicamentos(medicamentoDto.getPrecoMedicamentos());
+        medicamentoModel.setDosagemMedicamentos(medicamentoDto.getDosagemMedicamentos());
+        medicamentoModel.setTipoMedicamentos(medicamentoDto.getTipoMedicamentos());
+        medicamentoModel.setLaboratorioMedicamentos(medicamentoDto.getLaboratorioMedicamentos());
+        medicamentoModel.setMedicamentosControlados(medicamentoDto.getMedicamentosControlados());
+        return ResponseEntity.status(HttpStatus.OK).body(medicamentoService.save(medicamentoModel));
+
+    }
 
 
 }

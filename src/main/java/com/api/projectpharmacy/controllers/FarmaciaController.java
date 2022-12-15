@@ -2,7 +2,6 @@ package com.api.projectpharmacy.controllers;
 
 import com.api.projectpharmacy.dto.FarmaciaDto;
 import com.api.projectpharmacy.models.FarmaciaModel;
-import com.api.projectpharmacy.models.MedicamentoModel;
 import com.api.projectpharmacy.services.FarmaciaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +35,35 @@ public class FarmaciaController {
     public ResponseEntity<Object> getPorId(@PathVariable(value = "id") UUID id){
         Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(farmaciaModelOptional.get());
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarPorId(@PathVariable(value = "id") UUID id){
+        Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
+        farmaciaService.delete(farmaciaModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("deletado com sucesso");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updatePorId(@PathVariable(value = "id") UUID id,
+                                              @RequestBody @Valid FarmaciaDto farmaciaDto){
+        Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
+        var farmaciaModel = farmaciaModelOptional.get();
+        farmaciaModel.setRazaoSocial(farmaciaDto.getRazaoSocial());
+        farmaciaModel.setCnpj(farmaciaDto.getCnpj());
+        farmaciaModel.setNomeFantasia(farmaciaDto.getNomeFantasia());
+        farmaciaModel.setEmail(farmaciaDto.getEmail());
+        farmaciaModel.setTelefoneFixo(farmaciaDto.getTelefoneFixo());
+        farmaciaModel.setCelular(farmaciaDto.getCelular());
+        farmaciaModel.setCep(farmaciaDto.getCep());
+        farmaciaModel.setEndereco(farmaciaDto.getEndereco());
+        farmaciaModel.setNumero(farmaciaDto.getNumero());
+        farmaciaModel.setBairro(farmaciaDto.getBairro());
+        farmaciaModel.setCidade(farmaciaDto.getCidade());
+        farmaciaModel.setEstado(farmaciaDto.getEstado());
+        farmaciaModel.setLatitude(farmaciaDto.getLatitude());
+        farmaciaModel.setLongitute(farmaciaDto.getLongitute());
+        return ResponseEntity.status(HttpStatus.OK).body(farmaciaService.save(farmaciaModel));
+
     }
 
 

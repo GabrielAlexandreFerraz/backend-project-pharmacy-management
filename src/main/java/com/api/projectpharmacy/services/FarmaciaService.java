@@ -28,4 +28,8 @@ public class FarmaciaService {
     public Optional<FarmaciaModel> findById(UUID id) {
         return farmaciaRepository.findById(id);
     }
+
+    public void delete(FarmaciaModel farmaciaModel) {
+        farmaciaRepository.delete(farmaciaModel);
+    }
 }
