@@ -2,12 +2,17 @@ package com.api.projectpharmacy.services;
 
 import com.api.projectpharmacy.models.LoginModel;
 import com.api.projectpharmacy.repositories.LoginRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class LoginService {
     final LoginRepository loginRepository;
@@ -16,9 +21,7 @@ public class LoginService {
         this.loginRepository = loginRepository;
     }
 
-    public LoginModel save(LoginModel loginModel) {
-        return loginRepository.save(loginModel);
-    }
+    public LoginModel save(LoginModel loginModel) {return loginRepository.save(loginModel);}
 
     public List<LoginModel> findAll() {
         return loginRepository.findAll();
