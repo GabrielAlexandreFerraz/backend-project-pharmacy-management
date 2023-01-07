@@ -2,6 +2,7 @@ package com.api.projectpharmacy.controllers;
 
 import com.api.projectpharmacy.dto.LoginDto;
 import com.api.projectpharmacy.models.LoginModel;
+import com.api.projectpharmacy.respostaPadrao.RespostaPadrao;
 import com.api.projectpharmacy.services.LoginService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -24,37 +25,47 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveLogin(@RequestBody @Valid LoginDto loginDto){
+    public ResponseEntity<RespostaPadrao> saveLogin(@RequestBody @Valid LoginDto loginDto){
         var loginModel = new LoginModel();
         BeanUtils.copyProperties(loginDto, loginModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(loginService.save(loginModel));
+        loginModel = loginService.save(loginModel);
+        RespostaPadrao respostaPadrao = new RespostaPadrao(HttpStatus.CREATED,"login salvo com sucesso", loginModel);
+        return new ResponseEntity<>(respostaPadrao, HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<RespostaPadrao> getPorId(@PathVariable(value = "id") UUID id){
+        Optional<LoginModel> loginModelOptional = loginService.findById(id);
+        LoginModel loginModel = loginModelOptional.get();
+        RespostaPadrao respostaPadrao = new RespostaPadrao(HttpStatus.OK, "Login Encontrado", loginModel);
+        return ResponseEntity.ok(respostaPadrao);
     }
 
     @GetMapping
-    public ResponseEntity<List<LoginModel>> listarTodosLogin(){
-        return ResponseEntity.status(HttpStatus.OK).body(loginService.findAll());
+    public ResponseEntity<RespostaPadrao<List<LoginModel>>> listarTodosLogin(){
+        RespostaPadrao<List<LoginModel>> ListaLogin = new RespostaPadrao<>();
+        ListaLogin.setStatus(HttpStatus.OK);
+        ListaLogin.setMensagem("Lista de Login");
+        ListaLogin.setDados(loginService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(ListaLogin);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getPorId(@PathVariable(value = "id") UUID id){
-        Optional<LoginModel> loginModelOptional = loginService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(loginModelOptional.get());
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarPorId(@PathVariable(value = "id") UUID id){
         Optional<LoginModel> loginModelOptional = loginService.findById(id);
         loginService.delete(loginModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("Login Deletado com Sucesso");
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePorId(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<RespostaPadrao> updatePorId(@PathVariable(value = "id") UUID id,
                                               @RequestBody @Valid LoginDto loginDto) {
         Optional<LoginModel> loginModelOptional = loginService.findById(id);
-        var loginModel = loginModelOptional.get();
+        LoginModel loginModel = loginModelOptional.get();
         loginModel.setEmail(loginDto.getEmail());
         loginModel.setSenha(loginDto.getSenha());
-        return ResponseEntity.status(HttpStatus.OK).body(loginService.save(loginModel));
+        loginModel = loginService.save(loginModel);
+        RespostaPadrao respostaPadrao = new RespostaPadrao(HttpStatus.OK, "Login Alterado com sucesso", loginModel);
+        return ResponseEntity.ok(respostaPadrao);
     }
 
 }

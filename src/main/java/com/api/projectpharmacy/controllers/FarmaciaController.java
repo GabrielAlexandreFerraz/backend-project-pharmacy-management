@@ -2,6 +2,7 @@ package com.api.projectpharmacy.controllers;
 
 import com.api.projectpharmacy.dto.FarmaciaDto;
 import com.api.projectpharmacy.models.FarmaciaModel;
+import com.api.projectpharmacy.respostaPadrao.RespostaPadrao;
 import com.api.projectpharmacy.services.FarmaciaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -21,33 +22,42 @@ public class FarmaciaController {
     public FarmaciaController(FarmaciaService farmaciaService) {
         this.farmaciaService = farmaciaService;
     }
+
     @PostMapping
-    public ResponseEntity<Object> saveFarmacia(@RequestBody @Valid FarmaciaDto farmaciaDto){
+    public ResponseEntity<RespostaPadrao> saveFarmacia(@RequestBody @Valid FarmaciaDto farmaciaDto){
         var farmaciaModel = new FarmaciaModel();
         BeanUtils.copyProperties(farmaciaDto, farmaciaModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(farmaciaService.save(farmaciaModel));
-    }
-    @GetMapping
-    public ResponseEntity<List<FarmaciaModel>> listarTodasFarmacias(){
-        return ResponseEntity.status(HttpStatus.OK).body(farmaciaService.findAll());
+        farmaciaModel = farmaciaService.save(farmaciaModel);
+        RespostaPadrao respostaPadrao = new RespostaPadrao(HttpStatus.CREATED, "farmacia salva com sucesso", farmaciaModel);
+        return new ResponseEntity<>(respostaPadrao, HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getPorId(@PathVariable(value = "id") UUID id){
+    public ResponseEntity<RespostaPadrao> getPorId(@PathVariable(value = "id") UUID id){
         Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(farmaciaModelOptional.get());
+        FarmaciaModel farmaciaModel = farmaciaModelOptional.get();
+        RespostaPadrao respostaPadrao = new RespostaPadrao(HttpStatus.OK, "Farmacia Encontrada", farmaciaModel);
+        return ResponseEntity.ok(respostaPadrao);
+    }
+    @GetMapping
+    public ResponseEntity<RespostaPadrao<List<FarmaciaModel>>> listarTodasFarmacias(){
+        RespostaPadrao<List<FarmaciaModel>> ListaFarmacias = new RespostaPadrao<>();
+        ListaFarmacias.setStatus(HttpStatus.OK);
+        ListaFarmacias.setMensagem("Lista de Login");
+        ListaFarmacias.setDados(farmaciaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(ListaFarmacias);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarPorId(@PathVariable(value = "id") UUID id){
         Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
         farmaciaService.delete(farmaciaModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("Farmacia deletada com sucesso");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePorId(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<RespostaPadrao> updatePorId(@PathVariable(value = "id") UUID id,
                                               @RequestBody @Valid FarmaciaDto farmaciaDto){
         Optional<FarmaciaModel> farmaciaModelOptional = farmaciaService.findById(id);
-        var farmaciaModel = farmaciaModelOptional.get();
+        FarmaciaModel farmaciaModel = farmaciaModelOptional.get();
         farmaciaModel.setRazaoSocial(farmaciaDto.getRazaoSocial());
         farmaciaModel.setCnpj(farmaciaDto.getCnpj());
         farmaciaModel.setNomeFantasia(farmaciaDto.getNomeFantasia());
@@ -62,7 +72,9 @@ public class FarmaciaController {
         farmaciaModel.setEstado(farmaciaDto.getEstado());
         farmaciaModel.setLatitude(farmaciaDto.getLatitude());
         farmaciaModel.setLongitute(farmaciaDto.getLongitute());
-        return ResponseEntity.status(HttpStatus.OK).body(farmaciaService.save(farmaciaModel));
+        farmaciaModel = farmaciaService.save(farmaciaModel);
+        RespostaPadrao respostaPadrao = new RespostaPadrao<>(HttpStatus.OK,"Farmacia Alterada com sucesso",farmaciaModel);
+        return ResponseEntity.ok(respostaPadrao);
 
     }
 

@@ -1,7 +1,6 @@
 package com.api.projectpharmacy.services;
 
 import com.api.projectpharmacy.models.FarmaciaModel;
-import com.api.projectpharmacy.models.MedicamentoModel;
 import com.api.projectpharmacy.repositories.FarmaciaRepository;
 import org.springframework.stereotype.Service;
 
