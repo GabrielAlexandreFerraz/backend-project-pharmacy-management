@@ -38,6 +38,8 @@ As mensagens de erro devem seguir a seguinte estrutura padrão de resposta de er
 - Erro
 - Causa
 
+## Back end
+Pré-requisitos: Java 17
 
 # Tecnologias utilizadas
 ## Back end
@@ -47,15 +49,9 @@ As mensagens de erro devem seguir a seguinte estrutura padrão de resposta de er
 - Maven
 - Banco de dados: PostgreSQL
 
-# Como executar o projeto
-
-## Back end
-Pré-requisitos: Java 17
-
 ```bash
 # clonar repositório
 git clone https://github.com/GabrielAlexandreFerraz/backend-project-pharmacy-management.git
 
 # Autor
-
 Gabriel Alexandre Ferraz Rodrigues
