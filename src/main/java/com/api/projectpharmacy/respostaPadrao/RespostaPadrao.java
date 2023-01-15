@@ -15,9 +15,9 @@ public class RespostaPadrao<T> {
     private String mensagem;
     private T dados;
 
-    public void setStatus() {
+    public void setStatus(HttpStatus ok) {
     }
 
-    public void setStatus(HttpStatus ok) {
+    public void setStatus() {
     }
 }

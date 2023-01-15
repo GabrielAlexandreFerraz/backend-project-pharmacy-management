@@ -40,11 +40,12 @@ public class FarmaciaController {
     }
     @GetMapping
     public ResponseEntity<RespostaPadrao<List<FarmaciaModel>>> listarTodasFarmacias(){
-        RespostaPadrao<List<FarmaciaModel>> ListaFarmacias = new RespostaPadrao<>();
-        ListaFarmacias.setStatus(HttpStatus.OK);
-        ListaFarmacias.setMensagem("Lista de Login");
-        ListaFarmacias.setDados(farmaciaService.findAll());
-        return ResponseEntity.status(HttpStatus.OK).body(ListaFarmacias);
+        RespostaPadrao<List<FarmaciaModel>> listaFarmacias = new RespostaPadrao<>();
+        //está sempre retornando NULL não entendi o por que
+        listaFarmacias.setStatus(HttpStatus.OK);
+        listaFarmacias.setMensagem("Lista de farmacia");
+        listaFarmacias.setDados(farmaciaService.findAll());
+        return ResponseEntity.ok(listaFarmacias);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarPorId(@PathVariable(value = "id") UUID id){

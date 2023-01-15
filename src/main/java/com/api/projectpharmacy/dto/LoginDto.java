@@ -1,10 +1,7 @@
 package com.api.projectpharmacy.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -16,4 +13,13 @@ public class LoginDto {
 
     @NotBlank
     private String senha;
+
+
+    @Override
+    public String toString() {
+        return "LoginDto{" +
+                "email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
+    }
 }

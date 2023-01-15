@@ -24,6 +24,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
+
     @PostMapping
     public ResponseEntity<RespostaPadrao> saveLogin(@RequestBody @Valid LoginDto loginDto){
         var loginModel = new LoginModel();
@@ -42,11 +43,12 @@ public class LoginController {
 
     @GetMapping
     public ResponseEntity<RespostaPadrao<List<LoginModel>>> listarTodosLogin(){
-        RespostaPadrao<List<LoginModel>> ListaLogin = new RespostaPadrao<>();
-        ListaLogin.setStatus(HttpStatus.OK);
-        ListaLogin.setMensagem("Lista de Login");
-        ListaLogin.setDados(loginService.findAll());
-        return ResponseEntity.status(HttpStatus.OK).body(ListaLogin);
+        RespostaPadrao<List<LoginModel>> listaLogin = new RespostaPadrao<>();
+        //está sempre retornando NULL não entendi o por que
+        listaLogin.setStatus(HttpStatus.OK);
+        listaLogin.setMensagem("Lista de Login");
+        listaLogin.setDados(loginService.findAll());
+        return ResponseEntity.ok(listaLogin);
     }
 
 

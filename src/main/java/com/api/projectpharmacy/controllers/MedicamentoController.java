@@ -41,11 +41,12 @@ public class MedicamentoController {
 
     @GetMapping
     public ResponseEntity<RespostaPadrao<List<MedicamentoModel>>> listarTodosMedicamentos(){
-        RespostaPadrao<List<MedicamentoModel>> ListaMedicamentos = new RespostaPadrao<>();
-        ListaMedicamentos.setStatus(HttpStatus.OK);
-        ListaMedicamentos.setMensagem("Lista de Login");
-        ListaMedicamentos.setDados(medicamentoService.findAll());
-        return ResponseEntity.status(HttpStatus.OK).body(ListaMedicamentos);
+        RespostaPadrao<List<MedicamentoModel>> listaMedicamentos = new RespostaPadrao<>();
+        //está sempre retornando NULL não entendi o por que
+        listaMedicamentos.setStatus(HttpStatus.OK);
+        listaMedicamentos.setMensagem("Lista de Medicamento");
+        listaMedicamentos.setDados(medicamentoService.findAll());
+        return ResponseEntity.ok(listaMedicamentos);
     }
 
     @DeleteMapping("/{id}")
