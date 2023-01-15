@@ -40,6 +40,7 @@ As mensagens de erro devem seguir a seguinte estrutura padrão de resposta de er
 
 ## Back end
 Pré-requisitos: Java 17
+Banco de dados - PostgreSQL
 
 # Tecnologias utilizadas
 ## Back end
@@ -53,5 +54,15 @@ Pré-requisitos: Java 17
 # clonar repositório
 git clone https://github.com/GabrielAlexandreFerraz/backend-project-pharmacy-management.git
 
+# Lembretes
+° Se caso for testar a apliação:
+- Crie uma Database no seu banco de Dados
+- E não se esqueça de alterar as linhas do numero 1 ao 3 do arquivo application.properties dentro da pasta resources
+°Exemplo:
+spring.datasource.url= jdbc:postgresql://localhost:5432/xxxx-xxxxx(coloque aqui a url da Database que você criou)
+spring.datasource.username=xxxxxx(coloque aqui o username do seu banco de dados)
+spring.datasource.password=xxxxxx(coloque aqui a sua senha do seu banco de dados)
+
 # Autor
 Gabriel Alexandre Ferraz Rodrigues
+
